@@ -7,62 +7,90 @@
     <title>Caesar Cipher</title>
   </head>
   <body>
-    <header>
+    <header class="container">
+      <span class="badge">Shift cipher · 26 keys</span>
       <h1>Caesar Cipher</h1>
-      <p>Encrypt, decrypt, visualize, and break the classic shift cipher.</p>
+      <p class="subtitle">Encrypt, decrypt, see how every letter shifts, and break it by trying all keys.</p>
     </header>
 
-    <main>
-      <!-- Owner: Person B (src/ui/encryptDecrypt.ts) -->
-      <section id="encrypt" class="card">
-        <h2>1. Encryption</h2>
-        <label for="enc-input">Plaintext</label>
-        <textarea id="enc-input" rows="3" placeholder="e.g. CRYPTOGRAPHY"></textarea>
-        <label for="enc-key">Key (0–25)</label>
-        <input id="enc-key" type="text" inputmode="numeric" placeholder="e.g. 4" />
-        <button id="enc-btn" type="button">Encrypt</button>
-        <div id="enc-error" class="error" hidden></div>
-        <div id="enc-output" class="result" hidden></div>
-      </section>
+    <main class="container">
+      <div class="grid-2">
+        <!-- Owner: Person B (src/ui/encryptDecrypt.ts) -->
+        <section id="encrypt" class="card">
+          <h2><span class="step">1</span> Encryption</h2>
+          <p class="desc">Shift each letter forward by the key.</p>
+          <div class="field">
+            <label for="enc-input">Plaintext</label>
+            <textarea id="enc-input" rows="3" placeholder="e.g. CRYPTOGRAPHY"></textarea>
+          </div>
+          <div class="row">
+            <div class="field field-key">
+              <label for="enc-key">Key (0–25)</label>
+              <input id="enc-key" type="text" inputmode="numeric" placeholder="4" />
+            </div>
+            <button id="enc-btn" type="button">Encrypt</button>
+          </div>
+          <div id="enc-error" class="error" role="alert" hidden></div>
+          <div id="enc-output" class="result" data-label="Ciphertext" aria-live="polite" hidden></div>
+        </section>
 
-      <!-- Owner: Person B (src/ui/encryptDecrypt.ts) -->
-      <section id="decrypt" class="card">
-        <h2>2. Decryption</h2>
-        <label for="dec-input">Ciphertext</label>
-        <textarea id="dec-input" rows="3" placeholder="e.g. GVCTXSKVETLC"></textarea>
-        <label for="dec-key">Key (0–25)</label>
-        <input id="dec-key" type="text" inputmode="numeric" placeholder="e.g. 4" />
-        <button id="dec-btn" type="button">Decrypt</button>
-        <div id="dec-error" class="error" hidden></div>
-        <div id="dec-output" class="result" hidden></div>
-      </section>
+        <!-- Owner: Person B (src/ui/encryptDecrypt.ts) -->
+        <section id="decrypt" class="card">
+          <h2><span class="step">2</span> Decryption</h2>
+          <p class="desc">Shift each letter back by the same key.</p>
+          <div class="field">
+            <label for="dec-input">Ciphertext</label>
+            <textarea id="dec-input" rows="3" placeholder="e.g. GVCTXSKVETLC"></textarea>
+          </div>
+          <div class="row">
+            <div class="field field-key">
+              <label for="dec-key">Key (0–25)</label>
+              <input id="dec-key" type="text" inputmode="numeric" placeholder="4" />
+            </div>
+            <button id="dec-btn" type="button">Decrypt</button>
+          </div>
+          <div id="dec-error" class="error" role="alert" hidden></div>
+          <div id="dec-output" class="result" data-label="Plaintext" aria-live="polite" hidden></div>
+        </section>
+      </div>
 
       <!-- Owner: Person B (src/ui/visualization.ts) -->
       <section id="visualization" class="card">
-        <h2>3. How It Works</h2>
+        <h2><span class="step">3</span> How It Works</h2>
+        <p class="desc">Each letter becomes a number (A=0 … Z=25), the key is added or subtracted, and the result wraps around with mod 26.</p>
         <p id="viz-empty" class="hint">Encrypt or decrypt something above to see each step.</p>
         <div id="viz-alphabet"></div>
-        <div id="viz-steps"></div>
+        <div id="viz-steps" class="table-wrap"></div>
       </section>
 
       <!-- Owner: Person A (src/ui/bruteForce.ts) -->
       <section id="brute-force" class="card">
-        <h2>4. Attack: Brute Force</h2>
-        <label for="bf-input">Ciphertext</label>
-        <textarea id="bf-input" rows="3" placeholder="e.g. GVCTXSKVETLC"></textarea>
-        <button id="bf-btn" type="button">Try All Keys</button>
-        <div id="bf-error" class="error" hidden></div>
-        <div id="bf-results"></div>
+        <h2><span class="step">4</span> Attack: Brute Force</h2>
+        <p class="desc">There are only 26 possible keys, so an attacker can simply try them all and read which result makes sense.</p>
+        <div class="field">
+          <label for="bf-input">Ciphertext</label>
+          <textarea id="bf-input" rows="2" placeholder="e.g. GVCTXSKVETLC"></textarea>
+        </div>
+        <div class="row">
+          <button id="bf-btn" type="button">Try All Keys</button>
+        </div>
+        <div id="bf-error" class="error" role="alert" hidden></div>
+        <div id="bf-results" class="table-wrap"></div>
       </section>
 
       <!-- Owner: Person A (src/ui/testRunner.ts) -->
       <section id="test-cases" class="card">
-        <h2>5. Test Cases</h2>
-        <button id="tests-btn" type="button">Run Tests</button>
-        <p id="tests-summary"></p>
-        <div id="tests-results"></div>
+        <h2><span class="step">5</span> Test Cases</h2>
+        <p class="desc">Known inputs with expected outputs, used to check the implementation is correct.</p>
+        <div class="row">
+          <button id="tests-btn" type="button">Run Tests</button>
+          <p id="tests-summary" class="summary"></p>
+        </div>
+        <div id="tests-results" class="table-wrap"></div>
       </section>
     </main>
+
+    <footer class="container">Kriptografi mini-project · Caesar Cipher</footer>
 
     <script type="module" src="/src/main.ts"></script>
   </body>
