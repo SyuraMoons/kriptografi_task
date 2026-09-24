@@ -1,18 +1,104 @@
-# kriptografi_task — Caesar Cipher
+# Caesar Cipher — Kriptografi Mini-Project
 **harfi
 
-Interactive Caesar cipher web app (TypeScript + Vite).
+An interactive web app for learning the **Caesar cipher**: encrypt and decrypt messages, see step by step how every letter is shifted, and break a ciphertext by trying all possible keys. Built as a group mini-project for the Cryptography course.
 
-## Run
+## What is the Caesar cipher?
+
+The Caesar cipher is one of the oldest encryption techniques. Every letter is replaced by the letter a fixed number of positions (the **key**) further along the alphabet, wrapping around from Z back to A.
+
+Letters are numbered `A = 0, B = 1, …, Z = 25`, and with key `k`:
+
+```
+Encryption:  E(x) = (x + k) mod 26
+Decryption:  D(x) = (x − k) mod 26
+```
+
+**Example** — `CRYPTOGRAPHY` with key `4` → `GVCTXSKVETLC`
+
+| Letter | Index x | (x + 4) mod 26 | Result |
+|---|---|---|---|
+| C | 2 | 6 | G |
+| R | 17 | 21 | V |
+| Y | 24 | 28 mod 26 = 2 | C |
+| … | | | |
+
+## Features
+
+| | Feature | Description |
+|---|---|---|
+| ✅ | **Encryption** | Plaintext + key → ciphertext |
+| ✅ | **Decryption** | Ciphertext + key → plaintext |
+| ✅ | **Input validation** | Clear error messages instead of crashes |
+| 🚧 | **Visualization** | Shifted alphabet + per-letter table of the calculation |
+| 🚧 | **Brute-force attack** | "Try All Keys" lists all 26 decryptions and highlights the most likely one |
+| 🚧 | **Test cases** | Input → Algorithm → Output → Expected → PASS/FAIL, shown on the page |
+
+## Rules & input validation
+
+- Only English letters `A–Z` / `a–z` are shifted; upper/lower case is kept.
+- Spaces, digits and basic punctuation (`. , ! ? ' " ( ) : ; -`) pass through unchanged.
+- The key must be a whole number from `0` to `25`.
+
+| Invalid input | Message shown |
+|---|---|
+| Empty plaintext / ciphertext | `❌ Error: Please enter plaintext.` / `… ciphertext.` |
+| Empty key | `❌ Error: Please enter a key.` |
+| Key is not a number (e.g. `abc`, `3.5`) | `❌ Error: Key must be a whole number.` |
+| Key out of range (e.g. `30`, `-1`) | `❌ Error: Key must be between 0 and 25.` |
+| Unsupported character (e.g. `é`) | `❌ Error: Unsupported character: 'é'. Use English letters A–Z.` |
+
+## Security: why the Caesar cipher is weak
+
+There are only **26 possible keys**, so an attacker can simply try every one of them — a *brute-force attack* — which takes a computer less than a millisecond. The correct key is the one whose output reads as normal English; the app picks it automatically with a simple English letter-frequency score. The Caesar cipher is therefore useful for learning the ideas of substitution and modular arithmetic, but it provides **no real security**.
+
+## Test cases
+
+Deliberately different from the classroom examples (HELLO / ATTACK / SECRET). Defined in `src/testCases.ts`; run with `npm test` or the **Run Tests** button on the page.
+
+| # | Mode | Input | Key | Expected output | Checks |
+|---|---|---|---|---|---|
+| 1 | Encrypt | `CRYPTOGRAPHY` | 4 | `GVCTXSKVETLC` | Basic encryption |
+| 2 | Encrypt | `XYZ` | 3 | `ABC` | Wrap-around Z → A |
+| 3 | Encrypt | `Meet me at noon!` | 13 | `Zrrg zr ng abba!` | Case & punctuation preserved |
+| 4 | Decrypt | `WKH TXLFN` | 3 | `THE QUICK` | Basic decryption |
+| 5 | Decrypt | `Byffi Qilfx` | 20 | `Hello World` | Large key |
+
+## Tech stack
+
+- **TypeScript** — cipher logic and UI
+- **Vite** — dev server and build
+- **Vitest** — automated tests
+- Plain HTML + CSS, no framework
+
+## Getting started
 
 ```bash
 npm install
-npm run dev      # local dev server
+npm run dev      # then open http://localhost:5173
 npm test         # run test cases (Vitest)
 npm run build    # static build to dist/
 ```
 
-## Team split
+## Project structure
+
+```
+index.html               page layout (all sections)
+src/
+  caesar.ts              cipher logic + validation (pure functions, no DOM)
+  caesar.test.ts         Vitest tests
+  testCases.ts           the test cases shown on the page
+  style.css              black/white styling
+  main.ts                entry point
+  ui/
+    encryptDecrypt.ts    Encrypt & Decrypt sections
+    visualization.ts     "How It Works" section
+    bruteForce.ts        "Try All Keys" attack section
+    testRunner.ts        on-page test results
+    dom.ts               shared DOM helpers
+```
+
+## Team & contribution
 
 | Person A — Crypto & Attack | Person B — Interface & Visualization |
 |---|---|
@@ -22,10 +108,6 @@ npm run build    # static build to dist/
 | `src/ui/testRunner.ts` | `src/style.css`, `README.md` |
 
 Only edit files you own. Work on a `feat/...` branch and open a PR; `npm test` and `npx tsc --noEmit` must pass before merging.
-
-## Status
-
-Done: clean black/white UI, core cipher logic in `src/caesar.ts` (`encrypt`, `decrypt`, `bruteForce`, `validateKey`, `validateText`), and working Encrypt/Decrypt cards with error messages.
 
 ## Remaining tasks
 
