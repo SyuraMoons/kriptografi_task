@@ -1,0 +1,49 @@
+:root {
+  --bg: #f5f6f8;
+  --card: #ffffff;
+  --text: #1f2330;
+  --muted: #5d6475;
+  --border: #dde1e8;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+}
+
+body {
+  margin: 0;
+  padding: 0 16px 48px;
+}
+
+header,
+main {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+header {
+  padding: 32px 0 16px;
+}
+
+header p {
+  color: var(--muted);
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 20px;
+}
+
+/* Agreed class names (Person B styles these; both use them):
+   .error      red error box        .result     output box
+   .hint       muted helper text    .highlight  best brute-force row
+   .pass/.fail test result cells */
+.error {
+  color: #b42318;
+}
+
+.hint {
+  color: var(--muted);
+}
